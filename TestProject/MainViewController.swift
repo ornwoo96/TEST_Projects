@@ -14,7 +14,6 @@ class MainViewController: UIViewController {
     private var gifDurationArray: [Double] = []
     private var lastFrameTime: TimeInterval = 0.0
     private let maxFrameDuration = 1.0
-    private var isPaused = false
     private var displayLink: CADisplayLink?
     
     private lazy var imageView: UIImageView = {
@@ -62,11 +61,55 @@ class MainViewController: UIViewController {
         checkIsPaused()
     }
     
-    private func checkIsPaused() {
-        if !isPaused {
-            updateLoopCount()
-            updateImageWithElapsedTime()
+    private func setupGIFImage(_ gifData: Data) {
+        let gifImage = createUIImageArrayAndAnimationDurationArray(gifData)
+        self.gifImageArray = gifImage?.0 ?? []
+        self.gifDurationArray = gifImage?.1 ?? []
+    }
+    
+    private func setupUI() {
+        setupImageView()
+        setupAnimationButton()
+    }
+    
+    private func setupImageView() {
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    private func setupAnimationButton() {
+        view.addSubview(animationButton)
+        animationButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            animationButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            animationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 175),
+            animationButton.heightAnchor.constraint(equalToConstant: 50),
+            animationButton.widthAnchor.constraint(equalToConstant: 150)
+        ])
+    }
+    
+    @objc private func animationButtonDidTap(_ sender: UIButton) {
+        if sender.titleLabel?.text == "StopAnimating" {
+            animationButton.setTitle("StartAnimating", for: .normal)
+            stopAnimating()
+        } else {
+            animationButton.setTitle("StopAnimating", for: .normal)
+            startAnimating()
         }
+    }
+}
+
+// MARK: Update Frame Logic
+extension MainViewController {
+    private func checkIsPaused() {
+        updateLoopCount()
+        updateImageWithElapsedTime()
     }
     
     private func updateLoopCount() {
@@ -112,49 +155,6 @@ class MainViewController: UIViewController {
     
     private func stopAnimating() {
         displayLink?.isPaused = true
-    }
-    
-    private func setupGIFImage(_ gifData: Data) {
-        let gifImage = createUIImageArrayAndAnimationDurationArray(gifData)
-        self.gifImageArray = gifImage?.0 ?? []
-        self.gifDurationArray = gifImage?.1 ?? []
-    }
-    
-    private func setupUI() {
-        setupImageView()
-        setupAnimationButton()
-    }
-    
-    private func setupImageView() {
-        view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 200),
-            imageView.heightAnchor.constraint(equalToConstant: 200)
-        ])
-    }
-    
-    private func setupAnimationButton() {
-        view.addSubview(animationButton)
-        animationButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            animationButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            animationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 175),
-            animationButton.heightAnchor.constraint(equalToConstant: 50),
-            animationButton.widthAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
-    @objc private func animationButtonDidTap(_ sender: UIButton) {
-        if sender.titleLabel?.text == "StopAnimating" {
-            animationButton.setTitle("StartAnimating", for: .normal)
-            stopAnimating()
-        } else {
-            animationButton.setTitle("StopAnimating", for: .normal)
-            startAnimating()
-        }
     }
 }
 
