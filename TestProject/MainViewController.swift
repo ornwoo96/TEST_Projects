@@ -44,7 +44,7 @@ class MainViewController: UIViewController {
     
     private func fetchImageData() {
         do {
-            let gifData = (try getDataFromAsset(named: "export_0"))!
+            let gifData = (try getDataFromAsset(named: "catscats"))!
             self.setupGIFImage(gifData)
             self.setupDisplayLink()
         } catch {
@@ -55,10 +55,6 @@ class MainViewController: UIViewController {
     private func setupDisplayLink() {
         displayLink = CADisplayLink(target: self, selector: #selector(updateFrame))
         displayLink?.add(to: .main, forMode: .default)
-    }
-    
-    @objc private func updateFrame() {
-        checkIsPaused()
     }
     
     private func setupGIFImage(_ gifData: Data) {
@@ -107,12 +103,16 @@ class MainViewController: UIViewController {
 
 // MARK: Update Frame Logic
 extension MainViewController {
+    @objc private func updateFrame() {
+        checkIsPaused()
+    }
+    
     private func checkIsPaused() {
-        updateLoopCount()
+        checkCurrentFrameIndex()
         updateImageWithElapsedTime()
     }
     
-    private func updateLoopCount() {
+    private func checkCurrentFrameIndex() {
         if currentFrameIndex >= gifImageArray.count {
             currentFrameIndex = 0
         }
