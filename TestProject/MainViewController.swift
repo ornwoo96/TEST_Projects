@@ -33,31 +33,6 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    @objc private func animationButtonDidTap(_ sender: UIButton) {
-        if sender.titleLabel?.text == "StopAnimating" {
-            animationButton.setTitle("StartAnimating", for: .normal)
-            stopAnimating()
-        } else {
-            animationButton.setTitle("StopAnimating", for: .normal)
-            startAnimating()
-        }
-    }
-    
-    func startAnimating() {
-        timer = Timer.scheduledTimer(withTimeInterval: gifDuration, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            self.currentFrameIndex += 1
-            self.currentFrameIndex %= self.gifImageArray.count
-            DispatchQueue.main.async {
-                self.imageView.layer.contents = self.gifImageArray[self.currentFrameIndex]
-            }
-        }
-    }
-    
-    func stopAnimating() {
-        timer?.invalidate()
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,13 +43,17 @@ class MainViewController: UIViewController {
     private func fetchImageData() {
         do {
             let gifData = (try getDataFromAsset(named: "export_0"))!
-            let gifImage = createUIImageArrayAndAnimationDuration(gifData)
-            self.gifImageArray = gifImage?.0 ?? []
-            self.gifDuration = gifImage?.1 ?? 0.0
-            self.startAnimating()
+            self.setupGIFImage(gifData)
         } catch {
-            
+            print("image fetch Failure")
         }
+    }
+    
+    private func setupGIFImage(_ gifData: Data) {
+        let gifImage = createUIImageArrayAndAnimationDuration(gifData)
+        self.gifImageArray = gifImage?.0 ?? []
+        self.gifDuration = gifImage?.1 ?? 0.0
+        self.startAnimating()
     }
     
     private func setupUI() {
@@ -104,6 +83,34 @@ class MainViewController: UIViewController {
         ])
     }
     
+    private func startAnimating() {
+        timer = Timer.scheduledTimer(withTimeInterval: gifDuration, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.currentFrameIndex += 1
+            self.currentFrameIndex %= self.gifImageArray.count
+            DispatchQueue.main.async {
+                self.imageView.layer.contents = self.gifImageArray[self.currentFrameIndex]
+            }
+        }
+    }
+    
+    private func stopAnimating() {
+        timer?.invalidate()
+    }
+    
+    @objc private func animationButtonDidTap(_ sender: UIButton) {
+        if sender.titleLabel?.text == "StopAnimating" {
+            animationButton.setTitle("StartAnimating", for: .normal)
+            stopAnimating()
+        } else {
+            animationButton.setTitle("StopAnimating", for: .normal)
+            startAnimating()
+        }
+    }
+}
+
+// MARK: Create Image Data
+extension MainViewController {
     private func createUIImageArrayAndAnimationDuration(_ gifImageData: Data) -> ([CGImage], Double)? {
         guard let imageSource = CGImageSourceCreateWithData(gifImageData as CFData, nil) else {
             return nil
@@ -127,7 +134,7 @@ class MainViewController: UIViewController {
         return (imageArray, animationDuration/Double(gifImageCount))
     }
     
-    func getDataFromAsset(named fileName: String) throws -> Data? {
+    private func getDataFromAsset(named fileName: String) throws -> Data? {
         guard let asset = NSDataAsset(name: fileName) else {
             throw fatalError()
         }
