@@ -7,18 +7,11 @@
 
 import UIKit
 
-struct Company {
-    let direction: Int
-    let person: [Person]
-}
-
-struct Person {
-    
-}
-
 class MainViewController: UIViewController {
+    let dummyData = CompanySection.getCompanyDummyData()
+    
     lazy var collectionView: UICollectionView = {
-        let 
+        
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: <#T##UICollectionViewLayout#>)
         collectionView.dataSource = self
@@ -32,8 +25,20 @@ class MainViewController: UIViewController {
     }
     
     private func setupUI() {
-        
+        setupCollectionView()
     }
+    
+    private func setupCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
 }
 
 extension MainViewController: UICollectionViewDataSource {
