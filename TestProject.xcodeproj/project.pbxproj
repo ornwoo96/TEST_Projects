@@ -10,6 +10,8 @@
 		0BA1F84B2A28A067000CB4F2 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA1F84A2A28A067000CB4F2 /* Company.swift */; };
 		0BA1F84F2A29AC57000CB4F2 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA1F84E2A29AC57000CB4F2 /* CollectionViewCell.swift */; };
 		0BA1F8552A29B44D000CB4F2 /* CompositionalLayoutFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA1F8542A29B44D000CB4F2 /* CompositionalLayoutFactory.swift */; };
+		0BEC529B2A2C858A0070598A /* CompositionalFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC529A2A2C858A0070598A /* CompositionalFooter.swift */; };
+		0BEC529D2A2C85980070598A /* CompositionalHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC529C2A2C85980070598A /* CompositionalHeader.swift */; };
 		0BFAF3FA2977FDEB0045FE4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAF3F92977FDEB0045FE4E /* AppDelegate.swift */; };
 		0BFAF3FC2977FDEB0045FE4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAF3FB2977FDEB0045FE4E /* SceneDelegate.swift */; };
 		0BFAF3FE2977FDEB0045FE4E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAF3FD2977FDEB0045FE4E /* MainViewController.swift */; };
@@ -21,6 +23,8 @@
 		0BA1F84A2A28A067000CB4F2 /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		0BA1F84E2A29AC57000CB4F2 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		0BA1F8542A29B44D000CB4F2 /* CompositionalLayoutFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutFactory.swift; sourceTree = "<group>"; };
+		0BEC529A2A2C858A0070598A /* CompositionalFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalFooter.swift; sourceTree = "<group>"; };
+		0BEC529C2A2C85980070598A /* CompositionalHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalHeader.swift; sourceTree = "<group>"; };
 		0BFAF3F62977FDEB0045FE4E /* TestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFAF3F92977FDEB0045FE4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BFAF3FB2977FDEB0045FE4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +51,8 @@
 				0BFAF3FD2977FDEB0045FE4E /* MainViewController.swift */,
 				0BA1F84E2A29AC57000CB4F2 /* CollectionViewCell.swift */,
 				0BA1F8542A29B44D000CB4F2 /* CompositionalLayoutFactory.swift */,
+				0BEC529A2A2C858A0070598A /* CompositionalFooter.swift */,
+				0BEC529C2A2C85980070598A /* CompositionalHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -164,6 +170,8 @@
 				0BA1F8552A29B44D000CB4F2 /* CompositionalLayoutFactory.swift in Sources */,
 				0BFAF3FA2977FDEB0045FE4E /* AppDelegate.swift in Sources */,
 				0BFAF3FC2977FDEB0045FE4E /* SceneDelegate.swift in Sources */,
+				0BEC529B2A2C858A0070598A /* CompositionalFooter.swift in Sources */,
+				0BEC529D2A2C85980070598A /* CompositionalHeader.swift in Sources */,
 				0BA1F84B2A28A067000CB4F2 /* Company.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
