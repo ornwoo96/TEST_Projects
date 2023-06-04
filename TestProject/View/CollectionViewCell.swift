@@ -7,6 +7,16 @@
 
 import UIKit
 
+class CompositionalCellItem: BaseCellItem {
+    let companyText: String
+    let locationText: String
+    
+    init(companyText: String, locationText: String) {
+        self.companyText = companyText
+        self.locationText = locationText
+    }
+}
+
 class CollectionViewCell: UICollectionViewCell {
     static let identifier = "CollectionViewCell"
     
@@ -59,11 +69,11 @@ class CollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setupCell(_ data: Company) {
+    func setupCell(_ item: CompositionalCellItem) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.companyLabel.text = data.companyName
-            strongSelf.locationLabel.text = data.companyPosition
+            strongSelf.companyLabel.text = item.companyText
+            strongSelf.locationLabel.text = item.locationText
         }
     }
 }

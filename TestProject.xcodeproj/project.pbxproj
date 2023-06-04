@@ -12,6 +12,7 @@
 		0BA1F8552A29B44D000CB4F2 /* CompositionalLayoutFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA1F8542A29B44D000CB4F2 /* CompositionalLayoutFactory.swift */; };
 		0BEC529B2A2C858A0070598A /* CompositionalFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC529A2A2C858A0070598A /* CompositionalFooter.swift */; };
 		0BEC529D2A2C85980070598A /* CompositionalHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC529C2A2C85980070598A /* CompositionalHeader.swift */; };
+		0BEC52A02A2C8FF10070598A /* BaseCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC529F2A2C8FF10070598A /* BaseCellItem.swift */; };
 		0BFAF3FA2977FDEB0045FE4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAF3F92977FDEB0045FE4E /* AppDelegate.swift */; };
 		0BFAF3FC2977FDEB0045FE4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAF3FB2977FDEB0045FE4E /* SceneDelegate.swift */; };
 		0BFAF3FE2977FDEB0045FE4E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAF3FD2977FDEB0045FE4E /* MainViewController.swift */; };
@@ -25,6 +26,7 @@
 		0BA1F8542A29B44D000CB4F2 /* CompositionalLayoutFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutFactory.swift; sourceTree = "<group>"; };
 		0BEC529A2A2C858A0070598A /* CompositionalFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalFooter.swift; sourceTree = "<group>"; };
 		0BEC529C2A2C85980070598A /* CompositionalHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalHeader.swift; sourceTree = "<group>"; };
+		0BEC529F2A2C8FF10070598A /* BaseCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCellItem.swift; sourceTree = "<group>"; };
 		0BFAF3F62977FDEB0045FE4E /* TestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFAF3F92977FDEB0045FE4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BFAF3FB2977FDEB0045FE4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		0BEC529E2A2C8FE30070598A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0BEC529F2A2C8FF10070598A /* BaseCellItem.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		0BFAF3ED2977FDEB0045FE4E = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +100,7 @@
 				0BFAF4042977FDEE0045FE4E /* LaunchScreen.storyboard */,
 				0BFAF4072977FDEE0045FE4E /* Info.plist */,
 				0BA1F84D2A28A079000CB4F2 /* Model */,
+				0BEC529E2A2C8FE30070598A /* Base */,
 				0BA1F84C2A28A075000CB4F2 /* View */,
 			);
 			path = TestProject;
@@ -171,6 +182,7 @@
 				0BFAF3FA2977FDEB0045FE4E /* AppDelegate.swift in Sources */,
 				0BFAF3FC2977FDEB0045FE4E /* SceneDelegate.swift in Sources */,
 				0BEC529B2A2C858A0070598A /* CompositionalFooter.swift in Sources */,
+				0BEC52A02A2C8FF10070598A /* BaseCellItem.swift in Sources */,
 				0BEC529D2A2C85980070598A /* CompositionalHeader.swift in Sources */,
 				0BA1F84B2A28A067000CB4F2 /* Company.swift in Sources */,
 			);

@@ -9,6 +9,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     let dummyData = CompanySection.getCompanyDummyData()
+    var sections: [MainViewController.Section] = []
     
     private let layoutFactory = CompositionalLayoutFactory()
     
@@ -16,8 +17,6 @@ class MainViewController: UIViewController {
         let layout = layoutFactory.createLayout(self.dummyData)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.register(CollectionViewCell.self,
                                 forCellWithReuseIdentifier: CollectionViewCell.identifier)
         collectionView.register(CompositionalFooter.self,
@@ -29,9 +28,38 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
+    private var dataSource: UICollectionViewDiffableDataSource<MainViewController.Section, BaseCellItem>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupData()
+        reloadData()
+    }
+    
+    private func setupData() {
+        dummyData.forEach {
+            sections.append(MainViewController.Section(type: checkDirection($0.direction),
+                                                        items: $0.companies.map {
+                CompositionalCellItem(companyText: $0.companyName,
+                                      locationText: $0.companyPosition)
+            })
+            )
+        }
+        
+    }
+    
+    private func checkDirection(_ number: Int) -> MainViewController.Section.SectionType {
+        if number == 0 {
+            return .horizontal
+        } else {
+            return .vertical
+        }
     }
     
     private func setupUI() {
@@ -49,72 +77,115 @@ class MainViewController: UIViewController {
         ])
     }
     
-}
-
-extension MainViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dummyData.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        return dummyData[section].companies.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier,
-                                                            for: indexPath) as? CollectionViewCell else {
-            return UICollectionViewCell()
+    private func setupDataSource() {
+        dataSource = .init(collectionView: collectionView) { [weak self] in
+            let sectionType = self?.sections[$1.section].type
+            
+            switch sectionType {
+            case .horizontal:
+                guard let item = $2 as? CompositionalCellItem else {
+                    return UICollectionViewCell()
+                }
+                let cell = self?.dequeueReusableCell($0, $1) as? CollectionViewCell
+                cell?.contentView.backgroundColor = .systemBlue
+                cell?.setupCell(item)
+                
+                return cell
+            case .vertical:
+                guard let item = $2 as? CompositionalCellItem else {
+                    return UICollectionViewCell()
+                }
+                let cell = self?.dequeueReusableCell($0, $1) as? CollectionViewCell
+                cell?.contentView.backgroundColor = .orange
+                cell?.setupCell(item)
+                return cell
+            case .none: break
+            }
+            
+            return $0.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier,
+                                          for: $1)
         }
-        switch indexPath.section {
-        case 0:
-            cell.contentView.backgroundColor = .blue
-        case 1:
-            cell.contentView.backgroundColor = .orange
-        case 2:
-            cell.contentView.backgroundColor = .systemRed
-        default:
-            return UICollectionViewCell()
-        }
-        cell.setupCell(dummyData[indexPath.section].companies[indexPath.row])
         
-        return cell
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            if kind == UICollectionView.elementKindSectionHeader {
+                guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: CompositionalHeader.identifier,
+                    for: indexPath) as? CompositionalHeader else {
+                    return UICollectionReusableView()
+                }
+                
+                switch indexPath.section {
+                case 0:
+                    headerView.headerLabel.text = "가로모드"
+                default:
+                    headerView.headerLabel.text = "세로모드"
+                }
+                
+                return headerView
+            } else {
+                guard let footerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: CompositionalFooter.identifier,
+                    for: indexPath) as? CompositionalFooter else {
+                    return UICollectionReusableView()
+                }
+                footerView.footerLabel.text = "다리다"
+                footerView.footerLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+                return footerView
+            }
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: CompositionalHeader.identifier,
-                for: indexPath) as? CompositionalHeader else {
-                return UICollectionReusableView()
-            }
-            
-            switch indexPath.section {
-            case 0:
-                headerView.headerLabel.text = "가로모드"
-            default:
-                headerView.headerLabel.text = "세로모드"
-            }
-            
-            return headerView
+    private func dequeueReusableCell(_ collectionView: UICollectionView,
+                                     _ indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CollectionViewCell.identifier,
+            for: indexPath
+        ) as? CollectionViewCell {
+            return cell
         } else {
-            guard let footerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: CompositionalFooter.identifier,
-                for: indexPath) as? CompositionalFooter else {
-                return UICollectionReusableView()
-            }
-            footerView.footerLabel.text = "다리다"
-            footerView.footerLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-            return footerView
+            return UICollectionViewCell()
         }
+    }
+    
+    private func reloadData() {
+        var snapShot = NSDiffableDataSourceSnapshot<MainViewController.Section, BaseCellItem>()
+        
+        sections.forEach {
+            snapShot.appendSections([$0])
+            snapShot.appendItems($0.items, toSection: $0)
+        }
+        
+        dataSource?.apply(snapShot)
     }
 }
 
-extension MainViewController: UICollectionViewDelegate {
-    
+extension MainViewController {
+    internal class Section: Hashable {
+        let identifier: UUID = .init()
+        
+        let type: SectionType
+        var items: [BaseCellItem]
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(identifier)
+        }
+        
+        static func == (lhs: MainViewController.Section,
+                        rhs: MainViewController.Section) -> Bool {
+            lhs.identifier ==  rhs.identifier
+        }
+        
+        init(type: SectionType,
+             items: [BaseCellItem]) {
+            self.type = type
+            self.items = items
+        }
+        
+        public enum SectionType {
+            case vertical
+            case horizontal
+        }
+    }
 }
