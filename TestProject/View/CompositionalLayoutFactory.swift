@@ -7,6 +7,11 @@
 
 import UIKit
 
+// MARK: dimension 옵션 정리
+// absolute: 절대 값 고정 값
+// estimated: 동적인 레이아웃이 필요한 경우나 컨텐츠의 크기를 정확하게 알 수 없는 경우에 유용하게 사용될 수 있습니다.
+// fractional: 실제 크기가 아닌 상대적인 크기를 지정하는 속성입니다. 예를 들어, fractionalWidth가 1이면 해당 아이템이 전체 너비를 차지하고, 0.5이면 반 너비를 차지합니다. 이러한 속성을 사용하여 동적인 레이아웃을 생성할 수 있습니다.
+
 class CompositionalLayoutFactory {
     func createLayout(_ data: [CompanySection]) -> UICollectionViewCompositionalLayout {
         return .init { [weak self] sectionIndex, environment in
